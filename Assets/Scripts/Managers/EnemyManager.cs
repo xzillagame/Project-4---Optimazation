@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+//Added logic for custom object pool of enemies
+
+
 public class EnemyManager : MonoBehaviour
 {
     public PlayerHealth playerHealth;

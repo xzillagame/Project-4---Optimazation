@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+// Added object pool reference
+
+
 public class EnemyHealth : MonoBehaviour
 {
-    public int startingHealth = 100;
-    public int currentHealth;
-    public float sinkSpeed = 2.5f;
-    public int scoreValue = 10;
-    public AudioClip deathClip;
-    [HideInInspector] public EnemyManager enemyManagerPool;
 
+    [SerializeField] private EnemyStatsSO enemyStats;
+
+    public int currentHealth;
+    [HideInInspector] public EnemyManager enemyManagerPool;
 
     Animator anim;
     AudioSource enemyAudio;
@@ -26,7 +27,7 @@ public class EnemyHealth : MonoBehaviour
         hitParticles = GetComponentInChildren <ParticleSystem> ();
         capsuleCollider = GetComponent <CapsuleCollider> ();
 
-        currentHealth = startingHealth;
+        currentHealth = enemyStats.startingHealth;
     }
 
 
@@ -34,7 +35,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if(isSinking)
         {
-            transform.Translate (-Vector3.up * sinkSpeed * Time.deltaTime);
+            transform.Translate (-Vector3.up * enemyStats.sinkSpeed * Time.deltaTime);
         }
     }
 
@@ -66,18 +67,17 @@ public class EnemyHealth : MonoBehaviour
 
         anim.SetTrigger ("Dead");
 
-        enemyAudio.clip = deathClip;
+        enemyAudio.clip = enemyStats.deathClip;
         enemyAudio.Play ();
     }
 
 
     public void StartSinking()
     {
-        Debug.Log(" test");
         GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
         isSinking = true;
-        ScoreManager.score += scoreValue;
+        ScoreManager.score += enemyStats.scoreValue;
         
         StartCoroutine(AddToQueueAfterSinkRoutine());
 

@@ -1,20 +1,38 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.AI;
+
+
+//Edited to remove FindObjectOfType and GetComponent calls in Update function
+
 
 public class EnemyMovement : MonoBehaviour
 {
+
+    private Transform playerTransform;
+    private EnemyHealth enemyHealth;
+    private PlayerHealth playerHealth;
+
+    private NavMeshAgent enemyNavAgent;
+
+
+    private void OnEnable()
+    {
+        playerTransform = FindObjectOfType<PlayerMovement>().transform;
+        enemyHealth = GetComponent<EnemyHealth>();
+        playerHealth = playerTransform.GetComponent<PlayerHealth>();
+        enemyNavAgent = GetComponent<NavMeshAgent>();
+    }
+
+
     void Update ()
     {
-        Transform player = FindObjectOfType<PlayerMovement>().transform;
-
-        if (GetComponent<EnemyHealth>().currentHealth > 0 && player.GetComponent<PlayerHealth>().currentHealth > 0)
+        if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
         {
-            GetComponent<NavMeshAgent>().SetDestination (player.position);
+            enemyNavAgent.SetDestination (playerTransform.position);
         }
         else
         {
-            GetComponent<NavMeshAgent>().enabled = false;
+            enemyNavAgent.enabled = false;
         }
     }
 }
