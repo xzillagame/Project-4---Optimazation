@@ -1,4 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
+
+//Edited to read movement input from Action from InputMap instead of polling input in Update()
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,22 +14,50 @@ public class PlayerMovement : MonoBehaviour
 	private int floorMask;
 	private float camRayLength = 100f;
 
-	void Awake()
+	private PlayerInput playerInput;
+    Vector2 playerMoveInput = Vector2.zero;
+
+	int isWalkingAnimationHash = Animator.StringToHash("IsWalking");
+
+    void Awake()
 	{
 		floorMask = LayerMask.GetMask("Floor");
 		anim = GetComponent<Animator>();
 		playerRigidbody = GetComponent<Rigidbody>();
+
+		playerInput = new PlayerInput();
+		playerInput.Player.Movement.performed += ReadMovementInput;
+		playerInput.Player.Movement.canceled += ReadMovementInput;
+
+		playerInput.Enable();
+
 	}
 
-	void FixedUpdate()
+    private void OnDisable()
+    {
+        playerInput.Player.Movement.performed -= ReadMovementInput;
+        playerInput.Player.Movement.canceled -= ReadMovementInput;
+    }
+
+    void FixedUpdate()
 	{
-		float h = Input.GetAxisRaw("Horizontal");
-		float v = Input.GetAxisRaw("Vertical");
-
-		Move(h, v);
+		Move(playerMoveInput.x, playerMoveInput.y);
 		Turning();
-		Animating(h, v);
+		Animating(playerMoveInput.x, playerMoveInput.y);
 	}
+
+	private void ReadMovementInput(InputAction.CallbackContext ctx)
+	{
+		if(ctx.performed)
+		{
+			playerMoveInput = ctx.ReadValue<Vector2>();
+		}
+		else if(ctx.canceled)
+		{
+			playerMoveInput = Vector2.zero;
+		}
+	}
+
 
 	void Move(float h, float v)
 	{
@@ -53,6 +85,6 @@ public class PlayerMovement : MonoBehaviour
 	{
 		bool walking = h != 0f || v != 0f;
 
-		anim.SetBool("IsWalking", walking);
+		anim.SetBool(isWalkingAnimationHash, walking);
 	}
 }

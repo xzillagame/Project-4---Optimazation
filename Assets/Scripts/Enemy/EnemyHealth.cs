@@ -19,6 +19,8 @@ public class EnemyHealth : MonoBehaviour
     bool isDead;
     bool isSinking;
 
+    int deadTriggerAnimationHash = Animator.StringToHash("Dead");
+
 
     void Awake ()
     {
@@ -65,7 +67,7 @@ public class EnemyHealth : MonoBehaviour
 
         capsuleCollider.isTrigger = true;
 
-        anim.SetTrigger ("Dead");
+        anim.SetTrigger (deadTriggerAnimationHash);
 
         enemyAudio.clip = enemyStats.deathClip;
         enemyAudio.Play ();
