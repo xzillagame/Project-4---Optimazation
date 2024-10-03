@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 152261543}
   - component: {fileID: 152261545}
   - component: {fileID: 152261544}
+  - component: {fileID: 152261546}
   m_Layer: 5
   m_Name: DamageImage
   m_TagString: Untagged
@@ -273,6 +274,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 152261542}
   m_CullTransparentMesh: 0
+--- !u!114 &152261546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152261542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc4ae7e5cede4b48b2b845b9e5fc1b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealthSO: {fileID: 11400000, guid: 316a986e20050f149baba83710e7bd96, type: 2}
+  damageImage: {fileID: 152261544}
+  flashSpeed: 5
+  flashColour: {r: 1, g: 0, b: 0, a: 0.1}
 --- !u!850595691 &192328927
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -367,7 +384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e378bc199fbd343bceabbd3a16d73e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 2045715841}
 --- !u!4 &339976524
 Transform:
   m_ObjectHideFlags: 0
@@ -543,6 +559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 604563091}
   - component: {fileID: 604563092}
+  - component: {fileID: 604563093}
   m_Layer: 5
   m_Name: HealthSlider
   m_TagString: Untagged
@@ -622,6 +639,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &604563093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604563090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62b4be184c7080458025a8635a0b1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthSlider: {fileID: 604563092}
+  playerHealthSO: {fileID: 11400000, guid: 316a986e20050f149baba83710e7bd96, type: 2}
 --- !u!1 &675777152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,6 +1342,12 @@ PrefabInstance:
       propertyPath: healthSlider
       value: 
       objectReference: {fileID: 604563092}
+    - target: {fileID: 114762724205432510, guid: 9e3e72cd89ef44f97afe08f9baaabc18,
+        type: 3}
+      propertyPath: playerhealthSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 316a986e20050f149baba83710e7bd96,
+        type: 2}
     - target: {fileID: 199225940451065834, guid: 9e3e72cd89ef44f97afe08f9baaabc18,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -1627,6 +1664,7 @@ GameObject:
   - component: {fileID: 2045715842}
   - component: {fileID: 2045715841}
   - component: {fileID: 2045715843}
+  - component: {fileID: 2045715844}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -1710,6 +1748,19 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &2045715844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045715839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afda41cc6856e1f4eb731d3bfdf06cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 2045715841}
 --- !u!1 &2073888668
 GameObject:
   m_ObjectHideFlags: 0

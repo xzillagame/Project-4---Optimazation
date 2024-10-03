@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.Events;
+
+//Updated to have a static property and UnityAction for when the score is changed
 
 public class ScoreManager : MonoBehaviour
 {
-    public static int score;
+    private static int _score;
+    public static int score
+    {
+        get { return _score; }
+        set 
+        {
+            _score = value;
+            OnScoreChanged?.Invoke(_score);
+        }
+    }
 
-
-    [SerializeField] Text text;
-
+    public static event UnityAction<int> OnScoreChanged;
 
     void Awake ()
     {
         score = 0;
-    }
-
-
-    void Update ()
-    {
-        text.text = "Score: " + score;
     }
 }

@@ -2,10 +2,10 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+//Updated to use a PlayerHealthSO as a middle man
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int startingHealth = 100;
     public int currentHealth;
     public Slider healthSlider;
     public Image damageImage;
@@ -13,13 +13,12 @@ public class PlayerHealth : MonoBehaviour
     public float flashSpeed = 5f;
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
 
-
+    [SerializeField] private PlayerHealthSO playerhealthSO;
     Animator anim;
     AudioSource playerAudio;
     PlayerMovement playerMovement;
     PlayerShooting playerShooting;
     bool isDead;
-    bool damaged;
 
     int dieAnimationHash = Animator.StringToHash("Die");
 
@@ -30,36 +29,18 @@ public class PlayerHealth : MonoBehaviour
         playerAudio = GetComponent <AudioSource> ();
         playerMovement = GetComponent <PlayerMovement> ();
         playerShooting = GetComponentInChildren <PlayerShooting> ();
-        currentHealth = startingHealth;
-
-    }
-
-
-    void Update ()
-    {
-        if(damaged)
-        {
-            damageImage.color = flashColour;
-        }
-        else
-        {
-            damageImage.color = Color.Lerp (damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
-        }
-        damaged = false;
+        playerhealthSO.CurrentHealth = playerhealthSO.startingHealth;
     }
 
 
     public void TakeDamage (int amount)
     {
-        damaged = true;
 
-        currentHealth -= amount;
-
-        healthSlider.value = currentHealth;
+        playerhealthSO.CurrentHealth -= amount;
 
         playerAudio.Play ();
 
-        if(currentHealth <= 0 && !isDead)
+        if(playerhealthSO.CurrentHealth <= 0 && !isDead)
         {
             Death ();
         }
@@ -72,7 +53,7 @@ public class PlayerHealth : MonoBehaviour
 
         playerShooting.DisableEffects ();
 
-        anim.SetTrigger ("Die");
+        anim.SetTrigger (dieAnimationHash);
 
         playerAudio.clip = deathClip;
         playerAudio.Play ();
